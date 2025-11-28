@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "client": "Ivan Petrov",
+    "car": "Toyota Camry 2015",
+    "service": "Oil change",
+    "price": 3500,
+    "date": "2025-10-05",
+    "status": "completed",
+    "payment_amount": 3500,
+    "comments": "Service completed successfully",
+    "cancellation_reason": null
+  },
+  {
+    "id": 2,
+    "client": "Alexey Smirnov",
+    "car": "Honda Civic 2018",
+    "service": "Brake pads replacement",
+    "price": 6200,
+    "date": "2025-10-06",
+    "status": "pending",
+    "payment_amount": null,
+    "comments": "",
+    "cancellation_reason": null
+  },
+  {
+    "id": 3,
+    "client": "Maria Ivanova",
+    "car": "Ford Focus 2017",
+    "service": "Engine diagnostics",
+    "price": 2000,
+    "date": "2025-10-07",
+    "status": "completed",
+    "payment_amount": 2000,
+    "comments": "All systems checked",
+    "cancellation_reason": null
+  },
+  {
+    "id": 4,
+    "client": "Dmitry Orlov",
+    "car": "Nissan X-Trail 2020",
+    "service": "Air conditioner refill",
+    "price": 2800,
+    "date": "2025-10-08",
+    "status": "cancelled",
+    "payment_amount": null,
+    "comments": "",
+    "cancellation_reason": "Client cancelled the service"
+  },
+  {
+    "id": 5,
+    "client": "Olga Sokolova",
+    "car": "Kia Rio 2019",
+    "service": "Tire replacement",
+    "price": 4500,
+    "date": "2025-10-09",
+    "status": "in_progress",
+    "payment_amount": null,
+    "comments": "Work in progress",
+    "cancellation_reason": null
+  }
+]

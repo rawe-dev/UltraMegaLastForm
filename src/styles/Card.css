@@ -1,0 +1,229 @@
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  border-left: 4px solid #ccc;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.card-completed {
+  border-left-color: #28a745;
+  background: #f0f8f4;
+}
+
+.card-cancelled {
+  border-left-color: #dc3545;
+  background: #fdf3f3;
+}
+
+.card-in_progress {
+  border-left-color: #ffc107;
+  background: #fffbf0;
+}
+
+.card-pending {
+  border-left-color: #6c757d;
+  background: #f8f9fa;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  gap: 12px;
+}
+
+.status-icon {
+  font-size: 28px;
+  font-weight: bold;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.status-completed {
+  background: #d4edda;
+  color: #28a745;
+}
+
+.status-cancelled {
+  background: #f8d7da;
+  color: #dc3545;
+}
+
+.status-in_progress {
+  background: #fff3cd;
+  color: #ff9800;
+}
+
+.status-pending {
+  background: #e2e3e5;
+  color: #6c757d;
+}
+
+.card-title {
+  flex: 1;
+}
+
+.card-title h3 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.card-title .date {
+  margin: 0;
+  font-size: 12px;
+  color: #999;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-edit,
+.btn-delete {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.btn-edit:hover {
+  background: #e3f2fd;
+}
+
+.btn-delete:hover {
+  background: #ffebee;
+}
+
+.card-content {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.card-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-section label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.card-section p {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+  word-break: break-word;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ff9800;
+}
+
+.payment {
+  font-size: 16px;
+  font-weight: 600;
+  color: #28a745;
+}
+
+.comments {
+  font-size: 13px;
+  color: #555;
+  font-style: italic;
+  background: rgba(0, 0, 0, 0.02);
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.payment-info {
+  background: rgba(40, 167, 69, 0.05);
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.cancellation-info {
+  background: rgba(220, 53, 69, 0.05);
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.cancellation {
+  font-size: 13px;
+  color: #c82333;
+  font-style: italic;
+}
+
+.card-footer {
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.status-badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 16px;
+  text-transform: uppercase;
+}
+
+.status-badge-completed {
+  background: #d4edda;
+  color: #28a745;
+}
+
+.status-badge-cancelled {
+  background: #f8d7da;
+  color: #dc3545;
+}
+
+.status-badge-in_progress {
+  background: #fff3cd;
+  color: #ff9800;
+}
+
+.status-badge-pending {
+  background: #e2e3e5;
+  color: #6c757d;
+}
+
+@media (max-width: 768px) {
+  .card-header {
+    flex-wrap: wrap;
+  }
+  .card-content {
+    grid-template-columns: 1fr;
+  }
+  .card-actions {
+    flex-basis: 100%;
+    justify-content: flex-end;
+  }
+}

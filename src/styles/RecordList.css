@@ -1,0 +1,120 @@
+.record-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.record-list-header {
+  margin-bottom: 24px;
+}
+
+.record-list-header h2 {
+  margin: 0 0 8px 0;
+  font-size: 28px;
+  color: #333;
+}
+
+.total-count {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 10px 16px;
+  border: 2px solid #ddd;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.filter-btn:hover {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.filter-btn.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.filter-completed {
+  color: #28a745;
+}
+
+.filter-completed.active {
+  background: #28a745;
+  border-color: #28a745;
+}
+
+.filter-cancelled {
+  color: #dc3545;
+}
+
+.filter-cancelled.active {
+  background: #dc3545;
+  border-color: #dc3545;
+}
+
+.filter-in_progress {
+  color: #ff9800;
+}
+
+.filter-in_progress.active {
+  background: #ff9800;
+  border-color: #ff9800;
+}
+
+.filter-pending {
+  color: #6c757d;
+}
+
+.filter-pending.active {
+  background: #6c757d;
+  border-color: #6c757d;
+}
+
+.records-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 20px;
+}
+
+.no-records {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .record-list-container {
+    padding: 12px;
+  }
+
+  .records-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-buttons {
+    gap: 8px;
+  }
+
+  .filter-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
