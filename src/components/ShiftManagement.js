@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { openShift, closeShift, getActiveShift, getOperatorLogs } from '../service/api';
 import '../styles/ShiftManagement.css';
 
