@@ -5,6 +5,12 @@ require('dotenv').config();
 
 const { pool, initializeDatabase, testConnection } = require('./db');
 
+// Импортируем новые маршруты
+const servicesRouter = require('./routes/services');
+const usersRouter = require('./routes/users');
+const shiftsRouter = require('./routes/shifts');
+const transactionsRouter = require('./routes/transactions');
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -17,6 +23,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'OK', message: 'Server is running', database: 'PostgreSQL' });
 });
+
+// Подключаем новые API маршруты
+app.use('/api/services', servicesRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/shifts', shiftsRouter);
+app.use('/api/transactions', transactionsRouter);
 
 // GET - Получить все записи
 app.get('/api/records', async (req, res) => {
@@ -211,7 +223,12 @@ async function startServer() {
       console.log(`📍 API доступен по адресу: http://localhost:${PORT}/api`);
       console.log(`🔍 Health Check: http://localhost:${PORT}/api/health`);
       console.log(`🗄️  База данных: PostgreSQL`);
-      console.log(`📝 Документация: server/README.md\n`);
+      console.log(`\n📝 Доступные API маршруты:`);
+      console.log(`   📦 /api/services - Управление услугами`);
+      console.log(`   👥 /api/users - Управление пользователями`);
+      console.log(`   🔄 /api/shifts - Управление сменами`);
+      console.log(`   💰 /api/transactions - Управление платежами`);
+      console.log(`   📋 /api/records - Управление записями\n`);
     });
   } catch (err) {
     console.error('❌ Ошибка при запуске сервера:', err);
