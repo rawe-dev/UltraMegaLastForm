@@ -225,6 +225,35 @@ async function initializeDatabase() {
     } else {
       console.log(`📊 База данных содержит ${rowCount} записей`);
     }
+
+    // Проверяем есть ли данные в таблице services
+    const servicesResult = await pool.query('SELECT COUNT(*) FROM services');
+    const servicesCount = parseInt(servicesResult.rows[0].count);
+
+    // Если таблица services пустая, вставляем начальные данные
+    if (servicesCount === 0) {
+      const initialServices = [
+        { name: 'Oil change', price: 3500, description: 'Замена масла и фильтра' },
+        { name: 'Brake pads replacement', price: 6200, description: 'Замена тормозных колодок' },
+        { name: 'Engine diagnostics', price: 2000, description: 'Диагностика двигателя' },
+        { name: 'Air conditioner refill', price: 2800, description: 'Заправка кондиционера' },
+        { name: 'Tire replacement', price: 4500, description: 'Замена шин' },
+        { name: 'Battery replacement', price: 5000, description: 'Замена аккумулятора' },
+        { name: 'Transmission service', price: 8000, description: 'Обслуживание коробки передач' },
+        { name: 'Wheel alignment', price: 3000, description: 'Регулировка развал-схождения' }
+      ];
+
+      for (const service of initialServices) {
+        await pool.query(
+          `INSERT INTO services (name, price, description) VALUES ($1, $2, $3)`,
+          [service.name, service.price, service.description]
+        );
+      }
+
+      console.log('📦 Таблица услуг инициализирована с начальными данными');
+    } else {
+      console.log(`📦 Таблица услуг содержит ${servicesCount} услуг`);
+    }
   } catch (err) {
     console.error('❌ Ошибка при инициализации БД:', err.message);
     process.exit(1);

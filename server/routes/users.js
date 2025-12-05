@@ -2,6 +2,37 @@ const express = require('express');
 const router = express.Router();
 const { pool } = require('../db');
 
+// POST - Регистрация нового пользователя (по номеру телефона и ФИО)
+// ВАЖНО: Этот маршрут должен быть ПЕРЕД :id маршрутом
+router.post('/register', async (req, res) => {
+  try {
+    const { phone, full_name } = req.body;
+
+    if (!phone || !full_name) {
+      return res.status(400).json({ error: 'Missing required fields: phone, full_name' });
+    }
+
+    const query = `
+      INSERT INTO users (phone, full_name, role)
+      VALUES ($1, $2, 'client')
+      RETURNING id, phone, full_name, role, created_at
+    `;
+
+    const result = await pool.query(query, [phone, full_name]);
+
+    res.status(201).json({
+      message: 'User registered successfully',
+      user: result.rows[0]
+    });
+  } catch (err) {
+    if (err.code === '23505') {
+      return res.status(400).json({ error: 'User with this phone already exists' });
+    }
+    console.error('Ошибка при регистрации пользователя:', err);
+    res.status(500).json({ error: 'Failed to register user', details: err.message });
+  }
+});
+
 // GET - Получить всех пользователей
 router.get('/', async (req, res) => {
   try {
@@ -68,36 +99,6 @@ router.get('/:id', async (req, res) => {
   } catch (err) {
     console.error('Ошибка при загрузке пользователя:', err);
     res.status(500).json({ error: 'Failed to fetch user', details: err.message });
-  }
-});
-
-// POST - Регистрация нового пользователя (по номеру телефона и ФИО)
-router.post('/register', async (req, res) => {
-  try {
-    const { phone, full_name } = req.body;
-
-    if (!phone || !full_name) {
-      return res.status(400).json({ error: 'Missing required fields: phone, full_name' });
-    }
-
-    const query = `
-      INSERT INTO users (phone, full_name, role)
-      VALUES ($1, $2, 'client')
-      RETURNING id, phone, full_name, role, created_at
-    `;
-
-    const result = await pool.query(query, [phone, full_name]);
-
-    res.status(201).json({
-      message: 'User registered successfully',
-      user: result.rows[0]
-    });
-  } catch (err) {
-    if (err.code === '23505') {
-      return res.status(400).json({ error: 'User with this phone already exists' });
-    }
-    console.error('Ошибка при регистрации пользователя:', err);
-    res.status(500).json({ error: 'Failed to register user', details: err.message });
   }
 });
 
