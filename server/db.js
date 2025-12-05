@@ -1,18 +1,54 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
+console.log('🔧 DATABASE_URL:', process.env.DATABASE_URL ? '✅ Установлена' : '❌ Не установлена');
+
 // Используем DATABASE_URL если доступна (Railway), иначе конструируем из отдельных переменных
 const pool = new Pool(
   process.env.DATABASE_URL
-    ? { connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } }
+    ? { 
+        connectionString: process.env.DATABASE_URL, 
+        ssl: { rejectUnauthorized: false },
+        connectTimeoutMillis: 10000,
+        idleTimeoutMillis: 30000,
+        max: 20
+      }
     : {
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        database: process.env.DB_NAME,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
+        host: process.env.DB_HOST || 'localhost',
+        port: process.env.DB_PORT || 5432,
+        database: process.env.DB_NAME || 'auto_app',
+        user: process.env.DB_USER || 'postgres',
+        password: process.env.DB_PASSWORD || 'postgres',
+        connectTimeoutMillis: 10000,
+        idleTimeoutMillis: 30000,
+        max: 20
       }
 );
+
+// Retry функция для подключения
+async function retryConnection(maxAttempts = 5, delayMs = 2000) {
+  let attempt = 1;
+  
+  while (attempt <= maxAttempts) {
+    try {
+      const result = await pool.query('SELECT NOW()');
+      console.log('✅ Подключение к PostgreSQL успешно!');
+      return true;
+    } catch (err) {
+      console.error(`❌ Попытка ${attempt}/${maxAttempts} подключения к БД не удалась:`, err.message);
+      
+      if (attempt < maxAttempts) {
+        const waitTime = delayMs * Math.pow(2, attempt - 1); // Экспоненциальная задержка
+        console.log(`⏳ Ожидание ${waitTime}мс перед следующей попыткой...`);
+        await new Promise(resolve => setTimeout(resolve, waitTime));
+        attempt++;
+      } else {
+        console.error('❌ Все попытки подключения исчерпаны');
+        return false;
+      }
+    }
+  }
+}
 
 // Инициализация таблицы при подключении
 async function initializeDatabase() {
@@ -210,5 +246,6 @@ async function testConnection() {
 module.exports = {
   pool,
   initializeDatabase,
-  testConnection
+  testConnection,
+  retryConnection
 };

@@ -3,7 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
-const { pool, initializeDatabase, testConnection } = require('./db');
+const { pool, initializeDatabase, testConnection, retryConnection } = require('./db');
 
 // Импортируем новые маршруты
 const servicesRouter = require('./routes/services');
@@ -207,11 +207,18 @@ app.use((req, res) => {
 // Запуск сервера
 async function startServer() {
   try {
-    // Тестируем подключение
-    const connected = await testConnection();
+    console.log('🚀 Запуск сервера...');
+    console.log('⏳ Попытка подключения к PostgreSQL...\n');
+    
+    // Используем retry логику для подключения
+    const connected = await retryConnection(10, 3000);
 
     if (!connected) {
-      console.error('❌ Не удалось подключиться к базе данных');
+      console.error('❌ Не удалось подключиться к базе данных после всех попыток');
+      console.error('💡 Убедитесь что:');
+      console.error('   1. PostgreSQL сервис запущен в Railway');
+      console.error('   2. Переменная DATABASE_URL установлена правильно');
+      console.error('   3. База данных доступна из вашей сети');
       process.exit(1);
     }
 
