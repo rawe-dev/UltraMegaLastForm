@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path = require('path');
 require('dotenv').config();
 
 const { pool, initializeDatabase, testConnection, retryConnection } = require('./db');
@@ -18,6 +19,9 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Подача статических файлов фронтенда
+app.use(express.static(path.join(__dirname, '../build')));
 
 // Health Check
 app.get('/api/health', (req, res) => {
@@ -197,6 +201,11 @@ app.delete('/api/records/:id', async (req, res) => {
     console.error('Ошибка при удалении записи:', err);
     res.status(500).json({ error: 'Failed to delete record', details: err.message });
   }
+});
+
+// Fallback для SPA - все остальные маршруты ведут на index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
 // Обработка ошибок для несуществующих маршрутов
